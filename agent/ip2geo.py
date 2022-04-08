@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 
 class Ip2GeoLocator:
-    """CLass responsible for detecting geo-location details of IP address."""
+    """Class responsible for detecting geolocation details of IP address."""
     def __init__(self, endpoint: str) -> None:
         """Instantiate the necessery attributes of the object
 
