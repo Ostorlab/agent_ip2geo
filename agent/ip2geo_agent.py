@@ -36,8 +36,7 @@ class Ip2GeoAgent(agent.Agent, agent_persist_mixin.AgentPersistMixin):
 
 
     def process(self, message: m.Message) -> None:
-        """Process messages of type  v3.asset.domain_name or v3.asset.ip.v[4/6]
-        Runs Subfinder on the domain name and emits back the findings.
+        """Process messages of type v3.asset.ip.v[4/6] and emits back the geolocation details.
 
         Args:
             message: The received message.
@@ -53,7 +52,6 @@ class Ip2GeoAgent(agent.Agent, agent_persist_mixin.AgentPersistMixin):
             else:
                 out_selector = f'{message.selector}.geolocation'
                 self.emit(selector=out_selector, data=geolocation_details)
-                logger.info('Done emitting')
         else:
             logger.info('%s has already been processed. skipping for now.', ip_address)
 
