@@ -52,7 +52,6 @@ class Ip2GeoAgent(agent.Agent, agent_persist_mixin.AgentPersistMixin):
             else:
                 out_selector = f'{message.selector}.geolocation'
                 self.emit(selector=out_selector, data=geolocation_details)
-                logger.info('Done emitting')
         else:
             logger.info('%s has already been processed. skipping for now.', ip_address)
 
