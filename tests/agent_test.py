@@ -29,7 +29,7 @@ def testAgentIp2Geo_whenLocatesIpAddress_emitsBackFindings(ip2geo_agent, agent_m
     assert len(agent_mock) == 1
     assert agent_mock[0].selector =='v3.asset.ip.v4.geolocation'
     assert agent_mock[0].data['longitude'] ==  pytest.approx(-73.5848)
-    assert 'country_code' in agent_mock[0].data and agent_mock[0].data['country_code'] == 'CA'
+    assert agent_mock[0].data['country_code'] == 'CA'
 
 
 def testAgentIp2Geo_whenIpAddressIsInvalid_shouldSkip(ip2geo_agent,
