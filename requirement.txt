@@ -1,3 +1,2 @@
 ostorlab[agent]
 rich
-redis
