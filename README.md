@@ -15,7 +15,7 @@ _Ip2Geo agent is part of the auto-discovery agents, responsible for detecting th
 This repository is an implementation of [Ostorlab Agent](https://pypi.org/project/ostorlab/). 
 
 ## Getting Started
-The Ip2Geo Agent works collectively with other agents. Its job; Finds all geolocation details of an IP address and emits back these findings.
+The Ip2Geo Agent works collectively with other agents. Its job; Find all geolocation details of an IP address and emit back these findings.
 
 To perform your first scan, simply run the following command:
 
