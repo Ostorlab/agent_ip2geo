@@ -1,8 +1,7 @@
 """Pytest fixtures for the Ip2Geo agent"""
-
-import pytest
 import pathlib
 
+import pytest
 from ostorlab.agent import definitions as agent_definitions
 from ostorlab.runtimes import definitions as runtime_definitions
 
