@@ -16,15 +16,17 @@ This repository is an implementation of [Ostorlab Agent](https://pypi.org/projec
 
 ## Getting Started
 The Ip2Geo Agent works collectively with other agents. Its job; Finds all geolocation details of an IP address and emits back these findings.
-Other agents eg: *someagent* can use these findings to further *something*..
 
 To perform your first scan, simply run the following command:
 
 ```shell
-ostorlab scan run --install --agent agent/ostorlab/ip2geo --agent agent/ostorlab/*someagent* ip 8.8.8.8
+ostorlab scan run --install --agent agent/ostorlab/ip2geo \
+							--agent agent/ostorlab/subfinder \
+							--agent agent/ostorlab/autodiscovery_persist_graph \
+							ip 8.8.8.8
 ```
 
-This command will download and install agent  `agent/ostorlab/ip2geo` and `agent/ostorlab/*someagent*` and target the IP address `8.8.8.8`.
+This command will download and install the agents :`ip2geo`, `subfinder` and `autodiscovery_persist_graph` and target the IP address `8.8.8.8`.
 
 For more information, please refer to the [Ostorlab Documentation](https://github.com/Ostorlab/ostorlab/blob/main/README.md)
 
@@ -60,14 +62,14 @@ git clone https://github.com/Ostorlab/agent_ip2geo.git && cd agent_ip2geo
  ```
  You can pass the optional flag `--organization` to specify your organisation. The organization is empty by default.
 
- 4. Run the agent using on of the following commands:
+ 4. Run the agent using one of the following commands:
 	 * If you did not specify an organization when building the image:
 	  ```shell
-	  ostorlab scan run --agent agent//ip2geo --agent agent//*someagent* ip 8.8.8.8
+	  ostorlab scan run --agent agent//ip2geo --agent agent//autodiscovery_persist_graph ip 8.8.8.8
 	  ```
 	 * If you specified an organization when building the image:
 	  ```shell
-	  ostorlab scan run --agent agent/[ORGANIZATION]/ip2geo --agent agent/[ORGANIZATION]/*someagent* ip 8.8.8.8
+	  ostorlab scan run --agent agent/[ORGANIZATION]/ip2geo --agent agent/[ORGANIZATION]/autodiscovery_persist_graph ip 8.8.8.8
 
 
 ## License
