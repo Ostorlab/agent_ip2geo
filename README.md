@@ -17,13 +17,13 @@ This repository is an implementation of [Ostorlab Agent](https://pypi.org/projec
 ## Getting Started
 The Ip2Geo Agent works collectively with other agents. Its job; Find all geolocation details of an IP address and emit back these findings.
 
-To perform your first scan, simply run the following command:
+To use the agent in a scan, simply run the following command:
 
 ```shell
 ostorlab scan run --install --agent agent/ostorlab/ip2geo \
-							--agent agent/ostorlab/subfinder \
-							--agent agent/ostorlab/autodiscovery_persist_graph \
-							ip 8.8.8.8
+			    --agent agent/ostorlab/subfinder \
+			    --agent agent/ostorlab/autodiscovery_persist_graph \
+			    ip 8.8.8.8
 ```
 
 This command will download and install the agents :`ip2geo`, `subfinder` and `autodiscovery_persist_graph` and target the IP address `8.8.8.8`.
