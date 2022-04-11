@@ -6,6 +6,12 @@ import ipaddress
 from agent import request_sender
 
 
+GEO_LOCATION_FIELDS = [
+    'status', 'message', 'query', 'continent', 'continentCode', 'country',
+    'countryCode', 'region', 'regionName', 'city', 'zip', 'lat', 'lon', 'timezone',
+    'isp', 'org', 'asname', 'mobile', 'proxy', 'hosting'
+]
+
 logger = logging.getLogger(__name__)
 
 
@@ -23,9 +29,8 @@ class Ip2GeoLocator:
     def _locate_ip(self, ip_address) -> Dict[str, Any]:
         """Get geolocation details of an IP address"""
 
-        fields = 'status,message,query,continent,continentCode,country,countryCode,region,regionName,city,zip,\
-                  lat,lon,timezone,isp,org,asname,mobile,proxy,hosting'
-        path = f'{self._endpoint}/{ip_address}?fields={fields}'
+        fields_params = ','.join(GEO_LOCATION_FIELDS)
+        path = f'{self._endpoint}/{ip_address}?fields={fields_params}'
         response = request_sender.make_request('GET', path)
         return response
 
