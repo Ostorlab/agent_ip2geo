@@ -8,7 +8,8 @@ from ostorlab.runtimes import definitions as runtime_definitions
 from agent import ip2geo_agent
 
 @pytest.fixture(scope='function', name='ip2geo_agent')
-def fixture_io2geo_agent():
+def fixture_io2geo_agent(mocker):
+    mocker.patch('ostorlab.agent.mixins.agent_healthcheck_mixin.AgentHealthcheckMixin.__init__', return_value=None)
     with (pathlib.Path(__file__).parent.parent / 'ostorlab.yaml').open() as yaml_o:
         definition = agent_definitions.AgentDefinition.from_yaml(yaml_o)
         settings = runtime_definitions.AgentSettings(
