@@ -5,7 +5,6 @@ import ipaddress
 
 from agent import request_sender
 
-
 GEO_LOCATION_FIELDS = [
     'status', 'message', 'query', 'continent', 'continentCode', 'country',
     'countryCode', 'region', 'regionName', 'city', 'zip', 'lat', 'lon', 'timezone',
@@ -17,6 +16,7 @@ logger = logging.getLogger(__name__)
 
 class Ip2GeoLocator:
     """Class responsible for detecting geolocation details of IP address."""
+
     def __init__(self, endpoint: str) -> None:
         """Instantiate the necessary attributes of the object
 
@@ -25,8 +25,7 @@ class Ip2GeoLocator:
         """
         self._endpoint = endpoint
 
-
-    def _locate_ip(self, ip_address) -> Dict[str, Any]:
+    def locate_ip(self, ip_address) -> Dict[str, Any]:
         """Get geolocation details of an IP address"""
 
         fields_params = ','.join(GEO_LOCATION_FIELDS)
@@ -34,8 +33,7 @@ class Ip2GeoLocator:
         response = request_sender.make_request('GET', path)
         return response
 
-
-    def _parse_response(self, response: Dict[str, Any]) -> Dict[str, Any]:
+    def parse_response(self, response: Dict[str, Any]) -> Dict[str, Any]:
         """Parse output of the geolocation request to the expected format of Ostorlab's geo-location proto message."""
         if response.get('status') == 'success':
             message = {
@@ -67,6 +65,6 @@ class Ip2GeoLocator:
         Returns:
             dictionary of the geolocation details in Ostorlab's geolocation protobuff format.
         """
-        response = self._locate_ip(ip_address)
-        geolocation_details = self._parse_response(response)
+        response = self.locate_ip(ip_address)
+        geolocation_details = self.parse_response(response)
         return geolocation_details
