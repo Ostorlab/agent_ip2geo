@@ -1,30 +1,30 @@
 """Agent responsible for finding geolocation details of ip[v4-v6] addresses."""
-from typing import Any, Dict
-import logging
 import ipaddress
+import logging
+from typing import Any, Dict
 
 from agent import request_sender
-
 
 GEO_LOCATION_FIELDS = [
     'status', 'message', 'query', 'continent', 'continentCode', 'country',
     'countryCode', 'region', 'regionName', 'city', 'zip', 'lat', 'lon', 'timezone',
     'isp', 'org', 'asname', 'mobile', 'proxy', 'hosting'
 ]
+GEO_LOCATION_API_ENDPOINT = 'http://ip-api.com/json/'
 
 logger = logging.getLogger(__name__)
 
 
 class Ip2GeoLocator:
     """Class responsible for detecting geolocation details of IP address."""
-    def __init__(self, endpoint: str) -> None:
+
+    def __init__(self, endpoint: str = GEO_LOCATION_API_ENDPOINT) -> None:
         """Instantiate the necessary attributes of the object
 
         Args:
             endpoint: to which the request will be sent.
         """
         self._endpoint = endpoint
-
 
     def _locate_ip(self, ip_address) -> Dict[str, Any]:
         """Get geolocation details of an IP address"""
@@ -33,7 +33,6 @@ class Ip2GeoLocator:
         path = f'{self._endpoint}/{ip_address}?fields={fields_params}'
         response = request_sender.make_request('GET', path)
         return response
-
 
     def _parse_response(self, response: Dict[str, Any]) -> Dict[str, Any]:
         """Parse output of the geolocation request to the expected format of Ostorlab's geo-location proto message."""
