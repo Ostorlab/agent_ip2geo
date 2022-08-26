@@ -1,5 +1,6 @@
 """Agent implementation for Ip2Geo : Detecting geolocation details of an IP address."""
 import logging
+import ipaddress
 
 from ostorlab.agent import agent
 from ostorlab.agent import definitions as agent_definitions
@@ -7,8 +8,7 @@ from ostorlab.agent import message as m
 from ostorlab.agent.mixins import agent_persist_mixin
 from ostorlab.runtimes import definitions as runtime_definitions
 from rich import logging as rich_logging
-
-from agent import ip2geo
+from agent.utils import ip_range_visitor
 
 logging.basicConfig(
     format='%(message)s',
@@ -19,7 +19,15 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-STORAGE_NAME = 'agent_ipgeo_storage'
+STORAGE_NAME = b'agent_ipgeo_storage'
+
+
+class Error(Exception):
+    """Base Error"""
+
+
+class IPGeoError(Error):
+    """Error while finding ips geolocation"""
 
 
 class Ip2GeoAgent(agent.Agent, agent_persist_mixin.AgentPersistMixin):
@@ -39,18 +47,28 @@ class Ip2GeoAgent(agent.Agent, agent_persist_mixin.AgentPersistMixin):
             message: The received message.
         """
         logger.info('processing message of selector : %s', message.selector)
-        ip_address = message.data['host']
-        if self.set_add(STORAGE_NAME, ip_address) is True:
-            ip_geo_locator = ip2geo.Ip2GeoLocator()
-            geolocation_details = ip_geo_locator.get_geolocation_details(ip_address)
+        ip = message.data['host']
+        out_selector = f'{message.selector}.geolocation'
 
-            if 'errors' in geolocation_details:
-                logger.info('skipping %s : %s', ip_address, geolocation_details['errors'])
-            else:
-                out_selector = f'{message.selector}.geolocation'
-                self.emit(selector=out_selector, data=geolocation_details)
-        else:
-            logger.info('%s has already been processed. skipping for now.', ip_address)
+        mask = message.data.get('mask', '32')
+        network = ipaddress.ip_network(f"{ip}/{mask}")
+
+        # classify ip range based on geolocation
+        for result in ip_range_visitor.dichotomy_ip_network_visit(
+                network, ip_range_visitor.is_first_last_ip_same_geolocation):
+            # send ips that has the same geolocation
+            geolocation_details = result[0]
+            start, end, network = result
+
+            for ip in network:
+                # check if ip not tested before
+                if self.set_add(STORAGE_NAME, ip) is True:
+                    # create geolocation details dict for each ip and emit it
+                    geolocation_details['host'] = str(ip)
+                    logger.info("data", geolocation_details)
+                    self.emit(selector=out_selector, data=geolocation_details)
+                else:
+                    logger.info('%s has already been processed. skipping for now.', ip)
 
 
 if __name__ == '__main__':

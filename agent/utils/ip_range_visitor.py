@@ -28,6 +28,6 @@ def is_first_last_ip_same_geolocation(ip_network: ipaddress.IPv4Network | ipaddr
     first_location = locator.get_geolocation_details(str(first))
     last_location = locator.get_geolocation_details(str(last))
     if first_location['latitude'] == last_location['latitude'] and first_location['longitude'] == last_location['longitude']:
-        return False, (first_location, last_location)
+        return False, (first_location, last_location, ip_network)
     else:
-        return True, (first_location, last_location)
+        return True, (first_location, last_location, ip_network)
