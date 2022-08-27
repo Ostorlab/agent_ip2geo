@@ -1,4 +1,4 @@
-"""Unittests for the Ip range visitor."""
+"""Unittests for the IP range visitor."""
 
 import ipaddress
 
