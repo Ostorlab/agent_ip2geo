@@ -29,7 +29,7 @@ def make_request(method: str, path: str, data: Optional[Dict[str, str]] = None):
         AuthenticationError if request is not successful.
     """
     logger.info('request %s %s %s', method, path, data)
-    response = requests.request(method, path, data=json.dumps(data), timeout=None)
+    response = requests.request(method, path, data=json.dumps(data), timeout=10)
     if response.status_code not in [200, 201, 204]:
         logger.error('received %i %s', response.status_code, response.content)
         raise AuthenticationError(response.reason)
