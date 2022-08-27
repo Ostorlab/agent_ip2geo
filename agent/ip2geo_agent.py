@@ -51,21 +51,19 @@ class Ip2GeoAgent(agent.Agent, agent_persist_mixin.AgentPersistMixin):
         out_selector = f'{message.selector}.geolocation'
 
         mask = message.data.get('mask', '32')
-        network = ipaddress.ip_network(f"{ip}/{mask}")
+        network = ipaddress.ip_network(f"""{ip}/{mask}""")
 
         # classify ip range based on geolocation
         for result in ip_range_visitor.dichotomy_ip_network_visit(
                 network, ip_range_visitor.is_first_last_ip_same_geolocation):
-            # send ips that has the same geolocation
-            geolocation_details = result[0]
-            start, end, network = result
 
+            geolocation_details = result[0]
+            network = result[2]
             for ip in network:
                 # check if ip not tested before
                 if self.set_add(STORAGE_NAME, ip) is True:
                     # create geolocation details dict for each ip and emit it
                     geolocation_details['host'] = str(ip)
-                    logger.info("data", geolocation_details)
                     self.emit(selector=out_selector, data=geolocation_details)
                 else:
                     logger.info('%s has already been processed. skipping for now.', ip)
