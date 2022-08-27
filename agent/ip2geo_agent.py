@@ -27,7 +27,7 @@ class Error(Exception):
 
 
 class IPGeoError(Error):
-    """Error while finding ips geolocation"""
+    """Error getting the IP geolocation"""
 
 
 class Ip2GeoAgent(agent.Agent, agent_persist_mixin.AgentPersistMixin):
