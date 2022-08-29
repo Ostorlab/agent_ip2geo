@@ -52,8 +52,8 @@ class Ip2GeoAgent(agent.Agent, agent_persist_mixin.AgentPersistMixin):
                 network, self.ip_range_visitor.is_first_last_ip_same_geolocation):
 
             geolocation_details = result[0]
-            network = result[2]
-            for ip in network:
+            geolocation_network = result[2]
+            for ip in geolocation_network:
                 # check if ip not tested before
                 if self.add_ip_network(STORAGE_NAME, ipaddress.ip_network(ip)) is True:
                     # create geolocation details dict for each ip and emit it
