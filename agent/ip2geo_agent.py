@@ -45,7 +45,7 @@ class Ip2GeoAgent(agent.Agent, agent_persist_mixin.AgentPersistMixin):
         out_selector = f'{message.selector}.geolocation'
 
         mask = message.data.get('mask', '32')
-        if mask.data.get('version') == 6:
+        if message.data.get('version') == 6:
             mask = message.data.get('mask', '128')
 
         ip = message.data['host']
