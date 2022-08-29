@@ -16,7 +16,8 @@ class AuthenticationError(Exception):
 @tenacity.retry(
     stop=tenacity.stop_after_attempt(3),
     wait=tenacity.wait_fixed(2),
-    retry=tenacity.retry_if_exception_type())
+    retry=tenacity.retry_if_exception_type(),
+    retry_error_callback=lambda retry_state: None)
 def make_request(method: str, path: str, data: Optional[Dict[str, str]] = None):
     """Sends an HTTP request.
     Args:
