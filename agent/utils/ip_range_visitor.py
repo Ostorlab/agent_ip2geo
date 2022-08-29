@@ -15,8 +15,6 @@ class IPGeoError(Error):
 
 
 class IpRangeVisitor:
-    def __init__(self) -> None:
-        super().__init__()
 
     def dichotomy_ip_network_visit(self, ip_network: ipaddress.IPv4Network | ipaddress.IPv6Network,
                                    accept: Callable[
@@ -49,4 +47,4 @@ class IpRangeVisitor:
             else:
                 return True, (first_location, last_location, ip_network)
         except IPGeoError as e:
-            logger.warning("Error happens in is_first_last_ip_same_geolocation process", str(e))
+            logger.warning('Error happens in is_first_last_ip_same_geolocation process: %s', str(e))
