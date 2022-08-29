@@ -15,10 +15,13 @@ class IPGeoError(Error):
 
 
 class IpRangeVisitor:
+    """Ip range visitor implementation."""
 
     def dichotomy_ip_network_visit(self, ip_network: ipaddress.IPv4Network | ipaddress.IPv6Network,
                                    accept: Callable[
                                        [ipaddress.IPv4Network | ipaddress.IPv6Network], Tuple[bool, Any]]) -> Any:
+        """get ip ranges based on geolocation"""
+
         should_continue, result = accept(ip_network)
         yield result
         if should_continue is False:
@@ -36,6 +39,8 @@ class IpRangeVisitor:
     @staticmethod
     def is_first_last_ip_same_geolocation(ip_network: ipaddress.IPv4Network | ipaddress.IPv6Network
                                           ) -> Tuple[bool, Any]:
+        """Compare geolocation of network extremes"""
+
         first, last = ip_network[0], ip_network[-1]
         locator = ip2geo.Ip2GeoLocator()
         first_location = locator.get_geolocation_details(str(first))
