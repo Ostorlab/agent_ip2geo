@@ -43,8 +43,12 @@ class Ip2GeoAgent(agent.Agent, agent_persist_mixin.AgentPersistMixin):
         logger.info('processing message of selector : %s', message.selector)
 
         out_selector = f'{message.selector}.geolocation'
-        ip = message.data['host']
+
         mask = message.data.get('mask', '32')
+        if mask.data.get('version') == 6:
+            mask = message.data.get('mask', '128')
+
+        ip = message.data['host']
         network = ipaddress.ip_network(f'{ip}/{mask}')
 
         # classify ip range based on geolocation
