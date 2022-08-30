@@ -67,5 +67,6 @@ class Ip2GeoLocator:
             dictionary of the geolocation details in Ostorlab's geolocation protobuff format.
         """
         response = self._locate_ip(ip_address)
-        geolocation_details = self._parse_response(response)
-        return geolocation_details
+        if response is not None:
+            geolocation_details = self._parse_response(response)
+            return geolocation_details
