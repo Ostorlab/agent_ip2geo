@@ -55,3 +55,4 @@ class IpRangeVisitor:
                     return True, (first_location, last_location, ip_network)
             except IPGeoError as e:
                 logger.warning('Error happens in is_first_last_ip_same_geolocation process: %s', str(e))
+        return False, (None, None, ip_network)
