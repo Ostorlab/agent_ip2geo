@@ -55,6 +55,8 @@ class Ip2GeoAgent(agent.Agent, agent_persist_mixin.AgentPersistMixin):
 
             geolocation_details = result[0]
             geolocation_network = result[2]
+            if geolocation_details is None:
+                return
             for ip in geolocation_network:
                 # check if ip not tested before
                 if self.add_ip_network(STORAGE_NAME, ipaddress.ip_network(ip)) is True:

@@ -45,11 +45,14 @@ class IpRangeVisitor:
         locator = ip2geo.Ip2GeoLocator()
         first_location = locator.get_geolocation_details(str(first))
         last_location = locator.get_geolocation_details(str(last))
-        try:
-            if first_location['latitude'] == last_location['latitude'] and \
-                    first_location['longitude'] == last_location['longitude']:
-                return False, (first_location, last_location, ip_network)
-            else:
-                return True, (first_location, last_location, ip_network)
-        except IPGeoError as e:
-            logger.warning('Error happens in is_first_last_ip_same_geolocation process: %s', str(e))
+        if (first_location.get('latitude') is not None and last_location.get('latitude') is not None and
+                first_location.get('longitude') is not None and last_location.get('longitude') is not None):
+            try:
+                if (first_location['latitude'] == last_location['latitude'] and
+                        first_location['longitude'] == last_location['longitude']):
+                    return False, (first_location, last_location, ip_network)
+                else:
+                    return True, (first_location, last_location, ip_network)
+            except IPGeoError as e:
+                logger.warning('Error happens in is_first_last_ip_same_geolocation process: %s', str(e))
+        return True, (first_location, last_location, ip_network)

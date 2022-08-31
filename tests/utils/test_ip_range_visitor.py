@@ -1,6 +1,7 @@
 """Unittests for the IP range visitor."""
 
 import ipaddress
+import re
 
 from agent.utils.ip_range_visitor import IpRangeVisitor
 
@@ -81,3 +82,26 @@ def testVistor_withMaskNotRecieved_returnsIfFirstIPGeolocationEqualLastIPGeoloca
     for result in ip_range_visitor.dichotomy_ip_network_visit(ipaddress.ip_network('8.8.8.0/32'),
                                                               ip_range_visitor.is_first_last_ip_same_geolocation):
         assert result[0] == result[1]
+
+
+def testIsFirstLastIPSameGeolocation_withNoneLatAndLon_returnsTupleTrueNone(mocker, requests_mock):
+    matcher = re.compile('http://ip-api.com/json/')
+    requests_mock.get(
+        matcher,
+        json={
+            'query': '8.8.8.8',
+            'status': 'success',
+            'country': 'Canada',
+            'countryCode': 'CA',
+            'lat': None,
+            'lon': None,
+            'timezone': 'America/Toronto'
+        },
+        status_code=200
+    )
+    same_geo_location_mocker = ip_range_visitor.is_first_last_ip_same_geolocation(ipaddress.ip_network('8.8.8.0/32'))
+
+    assert same_geo_location_mocker[0] is True
+    assert same_geo_location_mocker[1][1]['latitude'] is None
+    assert same_geo_location_mocker[1][1]['longitude'] is None
+
