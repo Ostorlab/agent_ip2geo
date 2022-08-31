@@ -100,6 +100,7 @@ def testVistor_withMaskNotRecieved_returnsIfFirstIPGeolocationEqualLastIPGeoloca
     )
     same_geo_location_mocker = ip_range_visitor.is_first_last_ip_same_geolocation(ipaddress.ip_network('8.8.8.0/32'))
 
-    assert same_geo_location_mocker[0] is False
-    assert str(same_geo_location_mocker[1]) == """(None, None, IPv4Network('8.8.8.0/32'))"""
+    assert same_geo_location_mocker[0] is True
+    assert same_geo_location_mocker[1][1]['latitude'] is None
+    assert same_geo_location_mocker[1][1]['longitude'] is None
 
