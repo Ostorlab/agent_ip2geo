@@ -83,7 +83,8 @@ def testVistor_withMaskNotRecieved_returnsIfFirstIPGeolocationEqualLastIPGeoloca
                                                               ip_range_visitor.is_first_last_ip_same_geolocation):
         assert result[0] == result[1]
 
-def testVistor_withMaskNotRecieved_returnsIfFirstIPGeolocationEqualLastIPGeolocatiodn(mocker, requests_mock):
+
+def testIsFirstLastIPSameGeolocation_withNoneLatAndLon_returnsTupleTrueNone(mocker, requests_mock):
     matcher = re.compile('http://ip-api.com/json/')
     requests_mock.get(
         matcher,
