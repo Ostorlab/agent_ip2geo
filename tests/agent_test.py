@@ -2,7 +2,7 @@
 import re
 import pytest
 
-from ostorlab.agent import message
+from ostorlab.agent.message import message
 
 
 def testAgentIp2Geo_whenLocatesIpAddress_emitsBackFindings(ip2geo_agent, agent_mock, agent_persist_mock, requests_mock):
