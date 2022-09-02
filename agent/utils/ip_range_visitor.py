@@ -45,6 +45,14 @@ class IpRangeVisitor:
         locator = ip2geo.Ip2GeoLocator()
         first_location = locator.get_geolocation_details(str(first))
         last_location = locator.get_geolocation_details(str(last))
+
+        if first_location is None or last_location is None:
+            return True, (None, None, ip_network)
+
+        if 'errors' in first_location or 'errors' in last_location:
+            logger.warning('Could not get geolocation details: %s', first_location.get('errors'))
+            return True, (None, None, ip_network)
+
         if (first_location.get('latitude') is not None and last_location.get('latitude') is not None and
                 first_location.get('longitude') is not None and last_location.get('longitude') is not None):
             try:
