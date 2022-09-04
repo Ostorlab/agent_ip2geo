@@ -1,6 +1,6 @@
 """ Module Responsible for sending ip range geolocation"""
 import ipaddress
-from typing import Callable, Tuple, Any
+from typing import Callable, Tuple, Any, List
 
 from agent import ip2geo
 from agent.ip2geo import logger
@@ -27,7 +27,7 @@ class IpRangeVisitor:
         if should_continue is False:
             return
 
-        subnets = list(ip_network.subnets())
+        subnets: List[ipaddress.IPv4Network, ipaddress.IPv6Network] = list(ip_network.subnets())
 
         if len(subnets) == 1:
             # reached the last block.
