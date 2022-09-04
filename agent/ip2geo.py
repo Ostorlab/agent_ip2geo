@@ -58,7 +58,7 @@ class Ip2GeoLocator:
             }
         return message
 
-    def get_geolocation_details(self, ip_address: str) -> Dict[str, Any]:
+    def get_geolocation_details(self, ip_address: str) -> None | Dict[str, Any]:
         """Find geolocation details of an IP address.
 
         Args:
@@ -70,3 +70,5 @@ class Ip2GeoLocator:
         if response is not None:
             geolocation_details = self._parse_response(response)
             return geolocation_details
+        else:
+            return None

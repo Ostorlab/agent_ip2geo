@@ -1,7 +1,7 @@
 """Module responsible for sending HTTP requests"""
 import json
 import logging
-from typing import Dict, Optional
+from typing import Dict, Optional, Any
 
 import requests
 import tenacity
@@ -19,7 +19,7 @@ class AuthenticationError(Exception):
     wait=tenacity.wait.wait_fixed(2),
     retry=tenacity.retry_if_exception_type(Exception),
     retry_error_callback=lambda retry_state: None)
-def make_request(method: str, path: str, data: Optional[Dict[str, str]] = None) -> None | str:
+def make_request(method: str, path: str, data: Optional[Dict[str, str]] = None) -> Any:
     """Sends an HTTP request.
     Args:
         method: One of HTTP requests, e.g., GET, POST.
