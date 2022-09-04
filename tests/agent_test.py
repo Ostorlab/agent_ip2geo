@@ -1,16 +1,16 @@
 """Unittests for the Ip2Geo Agent."""
 import re
 import pytest
-from typing import List, Dict, Any, Union
+from typing import List, Dict, Union
 
 from ostorlab.agent.message import message
 import requests_mock as rq_mock
 
-from agent import ip2geo_agent
+from agent import ip2geo_agent as ip2geo_agt
 
 
 def testAgentIp2Geo_whenLocatesIpAddress_emitsBackFindings(
-        ip2geo_agent: ip2geo_agent.Ip2GeoAgent,
+        ip2geo_agent: ip2geo_agt.Ip2GeoAgent,
         agent_mock: List[message.Message],
         agent_persist_mock: Dict[Union[str, bytes],
                                  Union[str, bytes]],
@@ -41,7 +41,7 @@ def testAgentIp2Geo_whenLocatesIpAddress_emitsBackFindings(
     assert agent_mock[0].data['country_code'] == 'CA'
 
 
-def testAgentIp2Geo_whenIpAddressHasAlreadyBeenProcessed_shouldSkip(ip2geo_agent: ip2geo_agent.Ip2GeoAgent,
+def testAgentIp2Geo_whenIpAddressHasAlreadyBeenProcessed_shouldSkip(ip2geo_agent: ip2geo_agt.Ip2GeoAgent,
                                                                     agent_mock: List[message.Message],
                                                                     agent_persist_mock: Dict[Union[str, bytes],
                                                                                              Union[str, bytes]],
@@ -72,7 +72,7 @@ def testAgentIp2Geo_whenIpAddressHasAlreadyBeenProcessed_shouldSkip(ip2geo_agent
     assert len(agent_mock) == 256
 
 
-def testAgentIp2Geo_whenIpAddressHasHostBits_shouldSkip(ip2geo_agent: ip2geo_agent.Ip2GeoAgent,
+def testAgentIp2Geo_whenIpAddressHasHostBits_shouldSkip(ip2geo_agent: ip2geo_agt.Ip2GeoAgent,
                                                         agent_mock: List[message.Message],
                                                         agent_persist_mock: Dict[Union[str, bytes],
                                                                                  Union[str, bytes]],
