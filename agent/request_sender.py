@@ -13,12 +13,13 @@ logger = logging.getLogger(__name__)
 class AuthenticationError(Exception):
     """Authentication Error."""
 
+
 @tenacity.retry(
-    stop=tenacity.stop_after_attempt(3),
-    wait=tenacity.wait_fixed(2),
-    retry=tenacity.retry_if_exception_type(),
+    stop=tenacity.stop.stop_after_attempt(3),
+    wait=tenacity.wait.wait_fixed(2),
+    retry=tenacity.retry_if_exception_type(Exception),
     retry_error_callback=lambda retry_state: None)
-def make_request(method: str, path: str, data: Optional[Dict[str, str]] = None):
+def make_request(method: str, path: str, data: Optional[Dict[str, str]] = None) -> None | str:
     """Sends an HTTP request.
     Args:
         method: One of HTTP requests, e.g., GET, POST.
