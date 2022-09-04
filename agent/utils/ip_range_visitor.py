@@ -27,7 +27,7 @@ class IpRangeVisitor:
         if should_continue is False:
             return
 
-        subnets: List[ipaddress.IPv4Network, ipaddress.IPv6Network] = list(ip_network.subnets())
+        subnets: List[ipaddress.IPv4Network | ipaddress.IPv6Network] = list(ip_network.subnets())
 
         if len(subnets) == 1:
             # reached the last block.
