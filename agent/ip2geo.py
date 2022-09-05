@@ -26,7 +26,7 @@ class Ip2GeoLocator:
         """
         self._endpoint = endpoint
 
-    def _locate_ip(self, ip_address) -> Dict[str, Any]:
+    def _locate_ip(self, ip_address: str) -> Any:
         """Get geolocation details of an IP address"""
 
         fields_params = ','.join(GEO_LOCATION_FIELDS)
@@ -39,7 +39,7 @@ class Ip2GeoLocator:
         if response.get('status') == 'success':
             message = {
                 'host': response.get('query'),
-                'version': int(ipaddress.ip_network(response.get('query'), strict=False).version),
+                'version': int(ipaddress.ip_network(str(response.get('query')), strict=False).version),
                 'continent': response.get('continent'),
                 'continent_code': response.get('continentCode'),
                 'country': response.get('country'),
@@ -58,7 +58,7 @@ class Ip2GeoLocator:
             }
         return message
 
-    def get_geolocation_details(self, ip_address: str) -> Dict[str, Any]:
+    def get_geolocation_details(self, ip_address: str) -> None | Dict[str, Any]:
         """Find geolocation details of an IP address.
 
         Args:
@@ -70,3 +70,5 @@ class Ip2GeoLocator:
         if response is not None:
             geolocation_details = self._parse_response(response)
             return geolocation_details
+        else:
+            return None
