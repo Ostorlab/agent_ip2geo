@@ -6,11 +6,28 @@ from typing import Any, Dict
 from agent import request_sender
 
 GEO_LOCATION_FIELDS = [
-    'status', 'message', 'query', 'continent', 'continentCode', 'country',
-    'countryCode', 'region', 'regionName', 'city', 'zip', 'lat', 'lon', 'timezone',
-    'isp', 'org', 'asname', 'mobile', 'proxy', 'hosting'
+    "status",
+    "message",
+    "query",
+    "continent",
+    "continentCode",
+    "country",
+    "countryCode",
+    "region",
+    "regionName",
+    "city",
+    "zip",
+    "lat",
+    "lon",
+    "timezone",
+    "isp",
+    "org",
+    "asname",
+    "mobile",
+    "proxy",
+    "hosting",
 ]
-GEO_LOCATION_API_ENDPOINT = 'http://ip-api.com/json/'
+GEO_LOCATION_API_ENDPOINT = "http://ip-api.com/json/"
 
 logger = logging.getLogger(__name__)
 
@@ -29,33 +46,35 @@ class Ip2GeoLocator:
     def _locate_ip(self, ip_address: str) -> Any:
         """Get geolocation details of an IP address"""
 
-        fields_params = ','.join(GEO_LOCATION_FIELDS)
-        path = f'{self._endpoint}/{ip_address}?fields={fields_params}'
-        response = request_sender.make_request('GET', path)
+        fields_params = ",".join(GEO_LOCATION_FIELDS)
+        path = f"{self._endpoint}/{ip_address}?fields={fields_params}"
+        response = request_sender.make_request("GET", path)
         return response
 
     def _parse_response(self, response: Dict[str, Any]) -> Dict[str, Any]:
         """Parse output of the geolocation request to the expected format of Ostorlab's geo-location proto message."""
-        if response.get('status') == 'success':
+        if response.get("status") == "success":
             message = {
-                'host': response.get('query'),
-                'version': int(ipaddress.ip_network(str(response.get('query')), strict=False).version),
-                'continent': response.get('continent'),
-                'continent_code': response.get('continentCode'),
-                'country': response.get('country'),
-                'country_code': response.get('countryCode'),
-                'region': response.get('region'),
-                'region_name': response.get('regionName'),
-                'city': response.get('city'),
-                'zip': response.get('zip'),
-                'latitude': response.get('lat'),
-                'longitude': response.get('lon'),
-                'timezone': response.get('timezone')
+                "host": response.get("query"),
+                "version": int(
+                    ipaddress.ip_network(
+                        str(response.get("query")), strict=False
+                    ).version
+                ),
+                "continent": response.get("continent"),
+                "continent_code": response.get("continentCode"),
+                "country": response.get("country"),
+                "country_code": response.get("countryCode"),
+                "region": response.get("region"),
+                "region_name": response.get("regionName"),
+                "city": response.get("city"),
+                "zip": response.get("zip"),
+                "latitude": response.get("lat"),
+                "longitude": response.get("lon"),
+                "timezone": response.get("timezone"),
             }
         else:
-            message = {
-                'errors': response.get('message')
-            }
+            message = {"errors": response.get("message")}
         return message
 
     def get_geolocation_details(self, ip_address: str) -> None | Dict[str, Any]:
