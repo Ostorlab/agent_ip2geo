@@ -246,7 +246,9 @@ def testVistor_withMatchingIPAndMaskRecieved_returnsLocations() -> None:
     ]
 
 
-def testVistor_withMaskNotRecieved_returnsIfFirstIPGeolocationEqualLastIPGeolocation() -> None:
+def testVistor_withMaskNotRecieved_returnsIfFirstIPGeolocationEqualLastIPGeolocation() -> (
+    None
+):
     for result in ip_range_visitor.dichotomy_ip_network_visit(
         ipaddress.ip_network("8.8.8.0/32"),
         ip_range_visitor.is_first_last_ip_same_geolocation,
