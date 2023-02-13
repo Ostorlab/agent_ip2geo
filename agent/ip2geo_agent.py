@@ -30,7 +30,6 @@ class Ip2GeoAgent(agent.Agent, agent_persist_mixin.AgentPersistMixin):
         agent_definition: agent_definitions.AgentDefinition,
         agent_settings: runtime_definitions.AgentSettings,
     ) -> None:
-
         agent.Agent.__init__(self, agent_definition, agent_settings)
         agent_persist_mixin.AgentPersistMixin.__init__(self, agent_settings)
         self.ip_range_visitor = IpRangeVisitor()
@@ -62,7 +61,6 @@ class Ip2GeoAgent(agent.Agent, agent_persist_mixin.AgentPersistMixin):
         for result in self.ip_range_visitor.dichotomy_ip_network_visit(
             network, self.ip_range_visitor.is_first_last_ip_same_geolocation
         ):
-
             geolocation_details = result[0]
             geolocation_network = result[2]
             if geolocation_details is None:
