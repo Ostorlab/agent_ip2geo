@@ -11,10 +11,64 @@ from agent.utils.ip_range_visitor import IpRangeVisitor
 ip_range_visitor = IpRangeVisitor()
 
 
-def testVisitor_withMatchingIPAndMaskReceived_returnsLocations() -> None:
+def testVisitor_withMatchingIPAndMaskReceived_returnsLocations(
+    requests_mock: rq_mock.mocker.Mocker,
+) -> None:
+    requests_mock.get(
+        re.compile("http://ip-api.com/json//8.8.8.0.*"),
+        json={
+            "status": "success",
+            "continent": "North America",
+            "continentCode": "NA",
+            "country": "United States",
+            "countryCode": "US",
+            "region": "CA",
+            "regionName": "California",
+            "city": "Los Angeles",
+            "zip": "90009",
+            "lat": 34.0544,
+            "lon": -118.2441,
+            "timezone": "America/Los_Angeles",
+            "isp": "Google LLC",
+            "org": "Level 3",
+            "asname": "GOOGLE",
+            "mobile": False,
+            "proxy": False,
+            "hosting": True,
+            "query": "8.8.8.0",
+        },
+        status_code=200,
+    )
+
+    requests_mock.get(
+        re.compile("http://ip-api.com/json//8.8.8.1.*"),
+        json={
+            "status": "success",
+            "continent": "North America",
+            "continentCode": "NA",
+            "country": "United States",
+            "countryCode": "US",
+            "region": "CA",
+            "regionName": "California",
+            "city": "Los Angeles",
+            "zip": "90009",
+            "lat": 34.0544,
+            "lon": -118.2441,
+            "timezone": "America/Los_Angeles",
+            "isp": "Google LLC",
+            "org": "Level 3",
+            "asname": "GOOGLE",
+            "mobile": False,
+            "proxy": False,
+            "hosting": True,
+            "query": "8.8.8.1",
+        },
+        status_code=200,
+    )
+
     results = []
     for result in ip_range_visitor.dichotomy_ip_network_visit(
-        ipaddress.ip_network("8.8.8.0/22"),
+        ipaddress.ip_network("8.8.8.0/31"),
         ip_range_visitor.is_first_last_ip_same_geolocation,
     ):
         results.append(result[0:2])
@@ -37,7 +91,7 @@ def testVisitor_withMatchingIPAndMaskReceived_returnsLocations() -> None:
                 "timezone": "America/Los_Angeles",
             },
             {
-                "host": "8.8.11.255",
+                "host": "8.8.8.1",
                 "version": 4,
                 "continent": "North America",
                 "continent_code": "NA",
