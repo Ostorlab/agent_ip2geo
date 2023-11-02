@@ -1,6 +1,6 @@
 kind: Agent
 name: ip2geo
-version: 0.2.9
+version: 0.2.10
 image: images/logo.png
 description: |
   <h1 align="center">Agent Ip2Geo</h1>
