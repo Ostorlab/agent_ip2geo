@@ -1,4 +1,5 @@
 """Unittests for the Ip2Geo Agent."""
+
 import re
 import pytest
 from typing import List, Dict, Union

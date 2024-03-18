@@ -1,4 +1,5 @@
-""" Module Responsible for sending ip range geolocation"""
+"""Module Responsible for sending ip range geolocation"""
+
 import ipaddress
 from typing import Callable, Tuple, Any, List
 

@@ -1,4 +1,5 @@
 """Agent responsible for finding geolocation details of ip[v4-v6] addresses."""
+
 import ipaddress
 import logging
 from typing import Any, Dict
