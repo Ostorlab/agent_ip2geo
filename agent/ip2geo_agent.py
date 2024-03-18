@@ -1,4 +1,5 @@
 """Agent implementation for Ip2Geo : Detecting geolocation details of an IP address."""
+
 import logging
 import ipaddress
 

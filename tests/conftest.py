@@ -1,4 +1,5 @@
 """Pytest fixtures for the Ip2Geo agent"""
+
 import pathlib
 from typing import List
 
