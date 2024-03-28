@@ -1,16 +1,12 @@
-<h1 align="center">Agent Ip2Geo</h1>
+# Agent Ip2Geo
 
-<p align="center">
-<img src="https://img.shields.io/badge/License-Apache_2.0-brightgreen.svg">
-<img src="https://img.shields.io/github/languages/top/ostorlab/agent_ip2geo">
-<img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg">
-</p>
+![image](https://img.shields.io/badge/License-Apache_2.0-brightgreen.svg)
+![image](https://img.shields.io/github/languages/top/ostorlab/agent_ip2geo)
+![image](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)
 
 _Ip2Geo agent is part of the auto-discovery agents, responsible for detecting the geolocation details of an IP address._
 
-<p align="center">
-<img src="https://github.com/Ostorlab/agent_ip2geo/blob/main/images/logo.png" alt="agent-ip2geo" />
-</p>
+![image](https://raw.githubusercontent.com/Ostorlab/agent_ip2geo/main/images/logo.png)
 
 This repository is an implementation of [OXO Agent](https://pypi.org/project/ostorlab/). 
 
@@ -55,22 +51,22 @@ pip3 install ostorlab
 git clone https://github.com/Ostorlab/agent_ip2geo.git && cd agent_ip2geo
 ```
 
- 3. Build the agent image using oxo cli.
+3. Build the agent image using oxo cli.
 
  ```shell
  oxo agent build --file=ostorlab.yaml
  ```
- You can pass the optional flag `--organization` to specify your organisation. The organization is empty by default.
+ You can pass the optional flag `--organization` to specify your organization. The organization is empty by default.
 
- 4. Run the agent using one of the following commands:
-	 * If you did not specify an organization when building the image:
-	  ```shell
-	  oxo scan run --agent agent//ip2geo --agent agent//autodiscovery_persist_graph ip 8.8.8.8
-	  ```
-	 * If you specified an organization when building the image:
-	  ```shell
-	  oxo scan run --agent agent/[ORGANIZATION]/ip2geo --agent agent/[ORGANIZATION]/autodiscovery_persist_graph ip 8.8.8.8
-
+4. Run the agent using on of the following commands:
+    * If you did not specify an organization when building the image:
+     ```shell
+     oxo scan run --agent agent//ip2geo --agent agent//autodiscovery_persist_graph ip 8.8.8.8
+     ```
+    * If you specified an organization when building the image:
+     ```shell
+     oxo scan run --agent agent/[ORGANIZATION]/ip2geo --agent agent/[ORGANIZATION]/autodiscovery_persist_graph ip 8.8.8.8
+     ```
 
 ## License
 [Apache](./LICENSE)
