@@ -1,7 +1,7 @@
 """Agent implementation for Ip2Geo : Detecting geolocation details of an IP address."""
 
-import logging
 import ipaddress
+import logging
 
 from ostorlab.agent import agent
 from ostorlab.agent import definitions as agent_definitions
@@ -9,6 +9,7 @@ from ostorlab.agent.message import message as m
 from ostorlab.agent.mixins import agent_persist_mixin
 from ostorlab.runtimes import definitions as runtime_definitions
 from rich import logging as rich_logging
+
 from agent.utils.ip_range_visitor import IpRangeVisitor
 
 logging.basicConfig(
