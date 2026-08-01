@@ -1,19 +1,18 @@
 """Unittests for the Ip2Geo Agent."""
 
 import re
-import pytest
-from typing import List, Dict, Union
 
-from ostorlab.agent.message import message
+import pytest
 import requests_mock as rq_mock
+from ostorlab.agent.message import message
 
 from agent import ip2geo_agent as ip2geo_agt
 
 
 def testAgentIp2Geo_whenLocatesIpAddress_emitsBackFindings(
     ip2geo_agent: ip2geo_agt.Ip2GeoAgent,
-    agent_mock: List[message.Message],
-    agent_persist_mock: Dict[Union[str, bytes], Union[str, bytes]],
+    agent_mock: list[message.Message],
+    agent_persist_mock: dict[str | bytes, str | bytes],
     requests_mock: rq_mock.mocker.Mocker,
 ) -> None:
     """Unittest for emitting back the geolocation details found by the Ip2Geo agent."""
@@ -46,8 +45,8 @@ def testAgentIp2Geo_whenLocatesIpAddress_emitsBackFindings(
 
 def testAgentIp2Geo_whenIpAddressHasAlreadyBeenProcessed_shouldSkip(
     ip2geo_agent: ip2geo_agt.Ip2GeoAgent,
-    agent_mock: List[message.Message],
-    agent_persist_mock: Dict[Union[str, bytes], Union[str, bytes]],
+    agent_mock: list[message.Message],
+    agent_persist_mock: dict[str | bytes, str | bytes],
     requests_mock: rq_mock.mocker.Mocker,
 ) -> None:
     """Unittest for Ip2Geo Agent, when it receives an ip address that has already been processed,
@@ -80,8 +79,8 @@ def testAgentIp2Geo_whenIpAddressHasAlreadyBeenProcessed_shouldSkip(
 
 def testAgentIp2Geo_whenIpAddressHasHostBits_shouldSkip(
     ip2geo_agent: ip2geo_agt.Ip2GeoAgent,
-    agent_mock: List[message.Message],
-    agent_persist_mock: Dict[Union[str, bytes], Union[str, bytes]],
+    agent_mock: list[message.Message],
+    agent_persist_mock: dict[str | bytes, str | bytes],
     requests_mock: rq_mock.mocker.Mocker,
 ) -> None:
     """Unittest for Ip2Geo Agent, when it receives an ip address that has already been processed,

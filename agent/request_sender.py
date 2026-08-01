@@ -2,11 +2,10 @@
 
 import json
 import logging
-from typing import Dict, Optional, Any
+from typing import Any
 
 import requests
 import tenacity
-
 
 logger = logging.getLogger(__name__)
 
@@ -21,7 +20,7 @@ class AuthenticationError(Exception):
     retry=tenacity.retry_if_exception_type(Exception),
     retry_error_callback=lambda retry_state: None,
 )
-def make_request(method: str, path: str, data: Optional[Dict[str, str]] = None) -> Any:
+def make_request(method: str, path: str, data: dict[str, str] | None = None) -> Any:
     """Sends an HTTP request.
     Args:
         method: One of HTTP requests, e.g., GET, POST.

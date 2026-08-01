@@ -2,7 +2,7 @@
 
 import ipaddress
 import logging
-from typing import Any, Dict
+from typing import Any
 
 from agent import request_sender
 
@@ -52,7 +52,7 @@ class Ip2GeoLocator:
         response = request_sender.make_request("GET", path)
         return response
 
-    def _parse_response(self, response: Dict[str, Any]) -> Dict[str, Any]:
+    def _parse_response(self, response: dict[str, Any]) -> dict[str, Any]:
         """Parse output of the geolocation request to the expected format of Ostorlab's geo-location proto message."""
         if response.get("status") == "success":
             message = {
@@ -78,7 +78,7 @@ class Ip2GeoLocator:
             message = {"errors": response.get("message")}
         return message
 
-    def get_geolocation_details(self, ip_address: str) -> None | Dict[str, Any]:
+    def get_geolocation_details(self, ip_address: str) -> None | dict[str, Any]:
         """Find geolocation details of an IP address.
 
         Args:

@@ -1,7 +1,8 @@
 """Module Responsible for sending ip range geolocation"""
 
 import ipaddress
-from typing import Callable, Tuple, Any, List
+from collections.abc import Callable
+from typing import Any
 
 from agent import ip2geo
 from agent.ip2geo import logger
@@ -22,7 +23,7 @@ class IpRangeVisitor:
         self,
         ip_network: ipaddress.IPv4Network | ipaddress.IPv6Network,
         accept: Callable[
-            [ipaddress.IPv4Network | ipaddress.IPv6Network], Tuple[bool, Any]
+            [ipaddress.IPv4Network | ipaddress.IPv6Network], tuple[bool, Any]
         ],
     ) -> Any:
         """get ip ranges based on geolocation"""
@@ -32,7 +33,7 @@ class IpRangeVisitor:
         if should_continue is False:
             return
 
-        subnets: List[ipaddress.IPv4Network | ipaddress.IPv6Network] = list(
+        subnets: list[ipaddress.IPv4Network | ipaddress.IPv6Network] = list(
             ip_network.subnets()
         )
 
@@ -46,7 +47,7 @@ class IpRangeVisitor:
     @staticmethod
     def is_first_last_ip_same_geolocation(
         ip_network: ipaddress.IPv4Network | ipaddress.IPv6Network,
-    ) -> Tuple[bool, Any]:
+    ) -> tuple[bool, Any]:
         """Compare geolocation of network extremes"""
 
         first, last = ip_network[0], ip_network[-1]
