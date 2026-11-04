@@ -43,6 +43,40 @@ def testAgentIp2Geo_whenLocatesIpAddress_emitsBackFindings(
     assert agent_mock[0].data["country_code"] == "CA"
 
 
+def testAgentIp2Geo_whenIpIsHosted_emitsIspAndNetworkFlags(
+    ip2geo_agent: ip2geo_agt.Ip2GeoAgent,
+    agent_mock: list[message.Message],
+    agent_persist_mock: dict[str | bytes, str | bytes],
+    requests_mock: rq_mock.mocker.Mocker,
+) -> None:
+    del agent_persist_mock
+    requests_mock.get(
+        re.compile("http://ip-api.com/json/"),
+        json={
+            "query": "50.16.16.211",
+            "status": "success",
+            "countryCode": "US",
+            "isp": "Amazon.com, Inc.",
+            "org": "AWS EC2 (us-east-1)",
+            "mobile": False,
+            "proxy": False,
+            "hosting": True,
+        },
+        status_code=200,
+    )
+    msg = message.Message.from_data(
+        selector="v3.asset.ip.v4", data={"host": "50.16.16.211", "version": 4}
+    )
+
+    ip2geo_agent.process(msg)
+
+    assert agent_mock[0].data["isp"] == "Amazon.com, Inc."
+    assert agent_mock[0].data["org"] == "AWS EC2 (us-east-1)"
+    assert agent_mock[0].data["mobile"] is False
+    assert agent_mock[0].data["proxy"] is False
+    assert agent_mock[0].data["hosting"] is True
+
+
 def testAgentIp2Geo_whenIpAddressHasAlreadyBeenProcessed_shouldSkip(
     ip2geo_agent: ip2geo_agt.Ip2GeoAgent,
     agent_mock: list[message.Message],

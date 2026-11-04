@@ -73,6 +73,11 @@ class Ip2GeoLocator:
                 "latitude": response.get("lat"),
                 "longitude": response.get("lon"),
                 "timezone": response.get("timezone"),
+                "isp": response.get("isp"),
+                "org": response.get("org"),
+                "mobile": response.get("mobile"),
+                "proxy": response.get("proxy"),
+                "hosting": response.get("hosting"),
             }
         else:
             message = {"errors": response.get("message")}
