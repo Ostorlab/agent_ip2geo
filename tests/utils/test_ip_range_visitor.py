@@ -89,6 +89,11 @@ def testVisitor_withMatchingIPAndMaskReceived_returnsLocations(
                 "latitude": 34.0544,
                 "longitude": -118.2441,
                 "timezone": "America/Los_Angeles",
+                "isp": "Google LLC",
+                "org": "Level 3",
+                "mobile": False,
+                "proxy": False,
+                "hosting": True,
             },
             {
                 "host": "8.8.8.1",
@@ -104,6 +109,11 @@ def testVisitor_withMatchingIPAndMaskReceived_returnsLocations(
                 "latitude": 34.0544,
                 "longitude": -118.2441,
                 "timezone": "America/Los_Angeles",
+                "isp": "Google LLC",
+                "org": "Level 3",
+                "mobile": False,
+                "proxy": False,
+                "hosting": True,
             },
         )
     ]
