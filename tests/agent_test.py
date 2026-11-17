@@ -143,3 +143,38 @@ def testAgentIp2Geo_whenIpAddressHasHostBits_shouldSkip(
     ip2geo_agent.process(msg)
 
     assert len(agent_mock) == 256
+
+
+def testAgentIp2Geo_whenSingleIpAddress_sendsOneGeolocationRequest(
+    ip2geo_agent: ip2geo_agt.Ip2GeoAgent,
+    agent_mock: list[message.Message],
+    agent_persist_mock: dict[str | bytes, str | bytes],
+    requests_mock: rq_mock.mocker.Mocker,
+) -> None:
+    """A network with a single address must be looked up once, not once per extreme."""
+    del agent_persist_mock
+    requests_mock.get(
+        re.compile("http://ip-api.com/json/"),
+        json={
+            "query": "76.76.2.0",
+            "status": "success",
+            "country": "Canada",
+            "countryCode": "CA",
+            "lat": 45.4995,
+            "lon": -73.5848,
+            "timezone": "America/Toronto",
+        },
+        status_code=200,
+    )
+    msg = message.Message.from_data(
+        selector="v3.asset.ip.v4",
+        data={"host": "76.76.2.0", "mask": "32", "version": 4},
+    )
+
+    ip2geo_agent.process(msg)
+
+    assert requests_mock.call_count == 1
+    assert len(agent_mock) == 1
+    assert agent_mock[0].data["host"] == "76.76.2.0"
+    assert agent_mock[0].data["country_code"] == "CA"
+    assert agent_mock[0].data["latitude"] == pytest.approx(45.4995)

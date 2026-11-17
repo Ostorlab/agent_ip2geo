@@ -53,7 +53,11 @@ class IpRangeVisitor:
         first, last = ip_network[0], ip_network[-1]
         locator = ip2geo.Ip2GeoLocator()
         first_location = locator.get_geolocation_details(str(first))
-        last_location = locator.get_geolocation_details(str(last))
+        last_location = (
+            first_location
+            if first == last
+            else locator.get_geolocation_details(str(last))
+        )
 
         if first_location is None or last_location is None:
             return True, (None, None, ip_network)
