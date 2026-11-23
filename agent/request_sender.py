@@ -14,11 +14,22 @@ class AuthenticationError(Exception):
     """Authentication Error."""
 
 
+def _log_failed_request(retry_state: tenacity.RetryCallState) -> None:
+    """Log the request that failed after all retries; the caller gets None."""
+    exception = retry_state.outcome.exception() if retry_state.outcome else None
+    logger.warning(
+        "request %s failed after %i attempts: %s",
+        retry_state.args,
+        retry_state.attempt_number,
+        exception,
+    )
+
+
 @tenacity.retry(
     stop=tenacity.stop.stop_after_attempt(3),
     wait=tenacity.wait.wait_fixed(2),
     retry=tenacity.retry_if_exception_type(Exception),
-    retry_error_callback=lambda retry_state: None,
+    retry_error_callback=_log_failed_request,
 )
 def make_request(method: str, path: str, data: dict[str, str] | None = None) -> Any:
     """Sends an HTTP request.

@@ -43,6 +43,8 @@ class Ip2GeoAgent(agent.Agent, agent_persist_mixin.AgentPersistMixin):
             message: The received message.
         """
         logger.info("processing message of selector : %s", message.selector)
+        if message.selector.endswith(".geolocation"):
+            return
 
         ip = message.data["host"]
         mask = message.data.get("mask")
@@ -58,6 +60,10 @@ class Ip2GeoAgent(agent.Agent, agent_persist_mixin.AgentPersistMixin):
             if mask is not None
             else ipaddress.ip_network(f"{ip}", strict=False)
         )
+
+        if self.ip_network_exists(STORAGE_NAME, network) is True:
+            logger.info("%s has already been processed. skipping for now.", network)
+            return
 
         # classify ip range based on geolocation
         for result in self.ip_range_visitor.dichotomy_ip_network_visit(
